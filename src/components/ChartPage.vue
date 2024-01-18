@@ -33,7 +33,7 @@ export default {
   },
   setup() {
 
-    return { 
+    return {
     };
   },
 };
