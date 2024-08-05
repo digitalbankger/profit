@@ -269,7 +269,7 @@ thead {
 }
 .card {
   border-radius: 10px;
-  background-color: #152b31;
+  background-color: #1c212a;
 }
 .width-100 {
   width: 100%;
@@ -620,7 +620,7 @@ thead {
 .btn-sec {
   font-size: 16px;
   background: transparent;
-  border-bottom: 2px solid #fff;
+  border: 2px solid #fff;
   /* border-radius: 10px; */
   letter-spacing: 0.04em; 
   color: #fff;
@@ -992,12 +992,12 @@ video {
 }
 
 .risk-block {
-  background-color: #152b31;
+  background-color: #0f1115;
   border-radius: 10px;
   padding: 20px;
 }
 .tab {
-  background-color: #273333;
+  background-color: #1c212a;
   cursor: pointer;
   color: #fff;
   padding: 12px 20px;
@@ -1116,6 +1116,7 @@ tr:nth-child(even) {
     /* modern browser */
     color: #292e4547;
 }
+
 
 @media screen and ( min-width: 1000px) {
 

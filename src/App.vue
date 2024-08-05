@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <HeaderComponent :currentUser="currentUser"/>
 
       <!-- <div v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
@@ -23,12 +22,10 @@
 
 <script>
 import EventBus from "@/common/EventBus";
-import HeaderComponent from '@/components/HeaderApp.vue';
 import FooterApp from '@/components/FooterApp.vue';
 
 export default {
   components: {
-    HeaderComponent,
     FooterApp,
   },
   computed: {

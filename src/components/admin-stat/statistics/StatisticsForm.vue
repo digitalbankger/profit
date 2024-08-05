@@ -8,14 +8,14 @@
              <div class="col-4 d-flex fd-column card card-bg p-1 text-left">
                  <span class="fs-18 m-b-05">Депозит</span>
                  <span class="display-digits ">{{ allMoney }} $</span>
-                 <span class="fs-15 curtext fw-300 rub-class">10000 ₽</span>
+                 <span class="fs-15 curtext fw-300 rub-class">Не задано ₽</span>
 
              </div>
 
              <div class="col-4 d-flex fd-column card card-bg p-1 text-left">
                  <span class="fs-18 m-b-05">Всего средств</span>
                  <span class="display-digits ">{{ depoAndProfit }} $</span>
-                 <span class="fs-15 curtext fw-300 rub-class">16743 ₽</span>
+                 <span class="fs-15 curtext fw-300 rub-class">Не задано ₽</span>
 
              </div>
 
