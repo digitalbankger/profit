@@ -6,27 +6,27 @@
     </div>
 
     <div class="d-flex fd-row jc-space m-tb-2">
-      <div @click="setDayTrading" :class="{'tab tab-active-day text-center col-2 fw-500 bg-white': !isSwing, 'tab text-center col-2': isSwing}">Дейтрейдинг</div>
-      <div @click="setSwingTrading" :class="{'tab tab-active-swing text-center col-2 fw-500 bg-white': isSwing, 'tab text-center col-2': !isSwing}">Свинг-трейдинг</div>
+      <div @click="setDayTrading" :class="{'tab tab-active-day text-center col-2 fw-500 bg-white regim': !isSwing, 'tab text-center col-2 regim': isSwing}">Дейтрейдинг</div>
+      <div @click="setSwingTrading" :class="{'tab tab-active-swing text-center col-2 fw-500 bg-white regim': isSwing, 'tab text-center col-2 regim': !isSwing}">Свинг-трейдинг</div>
     </div>
 
-    <div class="d-flex fd-row jc-space">
-      <div class="col-2 d-flex fd-column jc-space">
-        <div class="d-flex fd-column card card-risk p-1 text-left m-b-1 width-80">
+    <div class="d-flex fd-row jc-space md-col">
+      <div class="col-2 mcol-1 d-flex fd-column jc-start gap-3">
+        <div class="d-flex fd-column card card-risk p-1 text-left m-b-1 width-80 mw-100">
           <span class="fs-18 m-b-05">Ваши средства</span>
           <span class="display-digits">{{ depoAndProfit }} $</span>
         </div>
-        <div class="d-flex fd-column card card-risk p-1 text-left m-b-1 width-80">
+        <div class="d-flex fd-column card card-risk p-1 text-left m-b-1 width-80 mw-100">
           <span class="fs-18 m-b-05">Риск на сделку</span>
           <span class="display-digits">{{ riskPerTrade }} $</span>
         </div>
-        <div class="d-flex fd-column card card-risk p-1 text-left m-b-1 width-80">
+        <div class="d-flex fd-column card card-risk p-1 text-left m-b-1 width-80 mw-100">
           <span class="fs-18 m-b-05">Риск на день</span>
           <span class="display-digits">{{ dailyRisk }} $</span>
         </div>
       </div>
 
-      <div class="col-2 d-flex fd-column jc-space">
+      <div class="col-2 mcol-1 d-flex fd-column jc-space">
         <div>
           <div>
             <span class="fs-18">Баланс счета:</span>
@@ -43,13 +43,13 @@
             <input v-model="entryPoint" class="form-control m-t-05" id="entryPoint" type="number" />
           </div>
 
-          <div class="d-flex fd-row gap-3">
-            <div>
-              <span class="fs-18">Тейк профит 1 (70%):</span>
+          <div class="d-flex fd-row jc-space gap-3 m-tb-1">
+            <div class="">
+              <span class="sl-rec fs-18">Тейк профит 1 (70%):</span>
               <input v-model="takeProfit1" class="form-control m-t-05" type="number" />
             </div>
-            <div>
-              <span class="fs-18">Тейк профит 2 (100%):</span>
+            <div class="">
+              <span class="sl-rec fs-18">Тейк профит 2 (100%):</span>
               <input v-model="takeProfit2" class="form-control m-t-05" type="number" />
             </div>
           </div>
@@ -61,21 +61,21 @@
           <p class="text-mini text-light fw-300 m-t-1 m-b-2 text-left">Если хотите опустить стоп-приказ ниже, понизьте плечо.</p>
 
           <div class="d-flex fd-row jc-space ai-center">
-            <span class="fs-18 m-b-05">Рекомендуемая сумма сделки:</span>
+            <span class="sl-rec fs-18">Рекомендуемая сумма сделки:</span>
             <span class="display-digits">{{ tradeSize.toFixed(0) }}</span>
           </div>
           <div class="d-flex fd-row jc-space ai-center">
-            <span class="fs-18 m-b-05">Рекомендуемый Stop Loss ({{ riskPercentage }}%)</span>
+            <span class="sl-rec fs-18">Рекомендуемый Stop Loss ({{ riskPercentage }}%)</span>
             <span class="display-digits">{{ recommendedStopLossValue.toFixed(0) }}</span>
           </div>
 
           <div class="d-flex fd-row gap-3">
-            <div class="d-flex fd-row jc-space ai-center">
-              <span class="fs-18 m-b-05 m-r-2">TP 1:</span>
+            <div class="col-2 m-t-1 d-flex fd-row jc-space ai-center">
+              <span class="fs-18 m-r-2">TP 1:</span>
               <span class="display-digits">{{ formattedTakeProfit1 }}</span>
             </div>
-            <div class="d-flex fd-row jc-space ai-center">
-              <span class="fs-18 m-b-05 m-r-2">TP 2:</span>
+            <div class="col-2 m-t-1 d-flex fd-row jc-space ai-center">
+              <span class="fs-18 m-r-2">TP 2:</span>
               <span class="display-digits">{{ formattedTakeProfit2 }}</span>
             </div>
           </div>

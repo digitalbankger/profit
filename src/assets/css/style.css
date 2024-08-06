@@ -1318,5 +1318,37 @@ tr:nth-child(even) {
 
 
 
-  
+  .regim {
+    font-size: 14px;
+  }
+  .md-col {
+    flex-direction: column;
+  }
+  .mcol-1 {
+    width: 100%;
+  }
+  .mw-100 {
+    width: 100%;
+  }
+  .display-digits {
+    font-size: 28px;
+  }
+  .text-mini {
+    font-size: 10px;
+  }
+  .sl-rec {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 720px) and (max-width: 1090px) {
+  .sl-rec {
+    font-size: 14px;
+  }
+  .text-mini {
+    font-size: 10px;
+  }
+  .display-digits {
+    font-size: 24px;
+  }
 }
