@@ -103,8 +103,8 @@ export default {
     const corDepo = ref(0);
     const allMoney = ref(0);
     const btcPrice = ref(0);
-    const telegramToken = '6558424850:AAGddwg9Lo6IE8BO7P9w5BFrAE8T94QyqWE';
-    const chatId = '-1002244312489';
+    const telegramToken = '';
+    const chatId = '';
     const takeProfit1 = ref();
     const takeProfit2 = ref();
 
