@@ -42,9 +42,20 @@
             <span class="fs-18">Цена входа:</span>
             <input v-model="entryPoint" class="form-control m-t-05" id="entryPoint" type="number" />
           </div>
+
+          <div class="d-flex fd-row gap-3">
+            <div>
+              <span class="fs-18">Тейк профит 1 (70%):</span>
+              <input v-model="takeProfit1" class="form-control m-t-05" type="number" />
+            </div>
+            <div>
+              <span class="fs-18">Тейк профит 2 (100%):</span>
+              <input v-model="takeProfit2" class="form-control m-t-05" type="number" />
+            </div>
+          </div>
         </div>
 
-        <button @click="calculateRecommendedStopLoss" class="btn-gen m-tb-2">Рассчитать</button>
+        <button @click="calculateValues" class="btn-gen m-tb-2">Рассчитать</button>
 
         <div class="card-risk ai-center p-l-1 rounded-10">
           <p class="text-mini text-light fw-300 m-t-1 m-b-2 text-left">Если хотите опустить стоп-приказ ниже, понизьте плечо.</p>
@@ -56,6 +67,17 @@
           <div class="d-flex fd-row jc-space ai-center">
             <span class="fs-18 m-b-05">Рекомендуемый Stop Loss ({{ riskPercentage }}%)</span>
             <span class="display-digits">{{ recommendedStopLossValue.toFixed(0) }}</span>
+          </div>
+
+          <div class="d-flex fd-row gap-3">
+            <div class="d-flex fd-row jc-space ai-center">
+              <span class="fs-18 m-b-05 m-r-2">TP 1:</span>
+              <span class="display-digits">{{ formattedTakeProfit1 }}</span>
+            </div>
+            <div class="d-flex fd-row jc-space ai-center">
+              <span class="fs-18 m-b-05 m-r-2">TP 2:</span>
+              <span class="display-digits">{{ formattedTakeProfit2 }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -72,17 +94,22 @@ import axios from 'axios';
 export default {
   setup() {
     const { fetchStat } = useApi();
-    const entryPoint = ref();
+    const entryPoint = ref(0);
     const leverage = ref(5);
     const isShort = ref(false);
-    const isSwing = ref(false);  // Добавлен флаг для режима свинг-трейдинга
+    const isSwing = ref(false); 
     const depoAndProfit = ref(0);
-    const userDepo = ref(null);
-    const corDepo = ref(null);
-    const allMoney = ref(null);
+    const userDepo = ref(0);
+    const corDepo = ref(0);
+    const allMoney = ref(0);
     const btcPrice = ref(0);
     const telegramToken = '6558424850:AAGddwg9Lo6IE8BO7P9w5BFrAE8T94QyqWE';
     const chatId = '-1002244312489';
+    const takeProfit1 = ref();
+    const takeProfit2 = ref();
+
+    const recommendedTakeProfit1 = ref(0);
+    const recommendedTakeProfit2 = ref(0);
 
     const fetchBtcPrice = async () => {
       try {
@@ -98,7 +125,8 @@ export default {
         const response = await fetchStat(1);
         const tradesData = response.Trades;
 
-        corDepo.value = response.CorrectDepo;    
+        userDepo.value = response.UserDepo || 0;
+        corDepo.value = response.CorrectDepo || 0;
         allMoney.value = userDepo.value + corDepo.value;
               
         let totalProfit = 0;
@@ -154,15 +182,48 @@ export default {
       recommendedStopLossValue.value = stopLoss;
     };
 
+    const calculateTakeProfits = () => {
+      let tradeSize70 = tradeSize.value * 0.7;
+
+      let movingPercentShort70 = (100 - ((takeProfit1.value / entryPoint.value) * 100)) * leverage.value;
+      let movingPercentLong70 = ((takeProfit1.value - entryPoint.value) / entryPoint.value) * 100;
+
+      let movingPercentShort100 = (100 - ((takeProfit2.value / entryPoint.value) * 100)) * leverage.value;
+      let movingPercentLong100 = ((takeProfit2.value - entryPoint.value) / entryPoint.value) * 100;
+
+      if (isShort.value) {
+        recommendedTakeProfit1.value = tradeSize70 * (movingPercentShort70 / 100);
+        recommendedTakeProfit2.value = tradeSize.value * (movingPercentShort100 / 100);
+      } else {
+        recommendedTakeProfit1.value = tradeSize70 * (movingPercentLong70 / 100);
+        recommendedTakeProfit2.value = tradeSize.value * (movingPercentLong100 / 100);
+      }
+    };
+
+    const calculateValues = () => {
+      calculateRecommendedStopLoss();
+      calculateTakeProfits();
+    };
+
+    const formattedTakeProfit1 = computed(() => {
+      return recommendedTakeProfit1.value ? recommendedTakeProfit1.value.toFixed(2) : '0.00';
+    });
+
+    const formattedTakeProfit2 = computed(() => {
+      return recommendedTakeProfit2.value ? recommendedTakeProfit2.value.toFixed(2) : '0.00';
+    });
+
     const sendSetupToTelegram = () => {
       const message = `
-        Режим: ${isSwing.value ? '*Свинг-трейдинг*' : '*Дейтрейдинг*'} \n
-        *Позиция:* ${isShort.value ? 'Short' : 'Long'}      *Плечо:* ${leverage.value}x \n
-        *Цена входа:* ${entryPoint.value}
-        *Сумма сделки:* ${tradeSize.value} $
-        *Сумма сделки в BTC:* ${tradeSizeInBtc.value.toFixed(6)} BTC
-        *Рекомендуемый Stop Loss:* ${(recommendedStopLossValue.value).toFixed(0)} \n
-        *Риск на сделку:* ${riskPerTrade.value} $ (${riskPercentage.value}%)
+        *Режим:* ${isSwing.value ? 'Свинг-трейдинг' : 'Дейтрейдинг'}\n
+        *Позиция:* ${isShort.value ? 'Short' : 'Long'}\n
+        *Плечо:* ${leverage.value}x      *Цена входа:* ${entryPoint.value}\n   
+        *Сумма сделки:* ${tradeSize.value.toFixed(0)} $
+        *Сумма сделки в BTC:* ${tradeSizeInBtc.value.toFixed(6)} BTC\n
+        *Рекомендуемый Stop Loss:* ${recommendedStopLossValue.value.toFixed(0)}
+        *Риск на сделку:* ${riskPerTrade.value} $ - (\n
+        *Тейк профит (100%):*  *${takeProfit2.value}* - ${formattedTakeProfit2.value} $
+        *Тейк профит (70%):* *${takeProfit1.value}* - ${formattedTakeProfit1.value} $      
       `;
       axios.post(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
         chat_id: chatId,
@@ -208,15 +269,19 @@ export default {
       setShort,
       setDayTrading,
       setSwingTrading,
-      calculateRecommendedStopLoss,
+      calculateValues,
       sendSetupToTelegram,
       recommendedStopLossValue,
+      formattedTakeProfit1,
+      formattedTakeProfit2,
+      takeProfit1,
+      takeProfit2,
       range,
       depoAndProfit,
       riskPerTrade,
       dailyRisk,
       riskPercentage,
-      btcPrice
+      btcPrice,
     };
   },
 };

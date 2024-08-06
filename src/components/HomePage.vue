@@ -21,48 +21,17 @@
       </div>
     </section>
 
-    <!-- Пятый блок -->
-    <section class="d-flex fd-column ai-center jc-center p-1 p-relative">
-      <div class="container d-flex fd-column p-1 pm-0">
-        <div class="d-flex fd-column jc-space ai-center z-index-1">
-          <StatisticsForm />
-        </div>
-      </div>
-    </section>
-
-    <!-- Пятый блок -->
-    <section class="d-flex fd-column ai-center jc-center p-1 p-relative">
-      <img src="@/assets/img/bg-abstract.png" width="800" class="bg-abstract text-left p-absolut z-index-0">
-
-      <div class="d-flex fd-column p-1 ai-center z-index-1">
-        <TradeJournalAdmin @open-lightbox="openLightbox"/>
-      </div>
-    </section>
-
-    <div v-if="isLightboxOpen" class="light-over">
-      <div class="lightbox">
-        <div class="lightbox-content">
-          <img :src="lightboxImageSrc" alt="Изображение сделки" class="light-img"/>
-          <span @click="closeLightbox" class="close-lightbox-button">X</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
-import TradeJournalAdmin from '@/components/admin-stat/TradeJournalAdmin.vue';
-import StatisticsForm from '@/components/admin-stat/statistics/StatisticsForm.vue';
 import TradingViewWidget from '@/components/tv-chart/TradingViewWidget.vue';
 import RiskManager from '@/components/admin-stat/RiskManager.vue';
 
 export default {
   components: {
-    TradeJournalAdmin,
     TradingViewWidget,
-    StatisticsForm,
     RiskManager
   },
   setup() {

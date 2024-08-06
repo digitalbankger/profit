@@ -269,7 +269,7 @@ thead {
 }
 .card {
   border-radius: 10px;
-  background-color: #1c212a;
+  background-color: #ffffff14;
 }
 .width-100 {
   width: 100%;
@@ -616,6 +616,9 @@ thead {
 }
 .shadow-none {
   box-shadow: none;
+}
+.gap-3 {
+  gap: 30px;
 }
 .btn-sec {
   font-size: 16px;
@@ -992,12 +995,12 @@ video {
 }
 
 .risk-block {
-  background-color: #0f1115;
+  background-color: #0e100f;
   border-radius: 10px;
   padding: 20px;
 }
 .tab {
-  background-color: #1c212a;
+  background-color: #395655;
   cursor: pointer;
   color: #fff;
   padding: 12px 20px;
