@@ -195,8 +195,8 @@ export default {
         recommendedTakeProfit1.value = tradeSize70 * (movingPercentShort70 / 100);
         recommendedTakeProfit2.value = tradeSize.value * (movingPercentShort100 / 100);
       } else {
-        recommendedTakeProfit1.value = tradeSize70 * (movingPercentLong70 / 100);
-        recommendedTakeProfit2.value = tradeSize.value * (movingPercentLong100 / 100);
+        recommendedTakeProfit1.value = tradeSize70 * (1+ (movingPercentLong70 * leverage.value) / 100);
+        recommendedTakeProfit2.value = tradeSize.value * (1 + (movingPercentLong100 * leverage.value) / 100);
       }
     };
 
